@@ -40,6 +40,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'spotifyBE.albums',
+    'spotifyBE.tracks',
+    'spotifyBE.artists',
+    'spotifyBE.playlists',
+    'spotifyBE.users',
+    'spotifyBE.relationships',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
