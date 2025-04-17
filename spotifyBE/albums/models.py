@@ -7,7 +7,7 @@ class Albums(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_column='id')
     title = models.CharField(max_length=255,db_column="title")
     releaseDate = models.DateField(db_column="release_date", null=True)
-    createdAt = models.DateTimeField(db_column="created_at")
+    createdAt = models.DateTimeField(db_column="created_at" , auto_now_add=True)
     imageUrl = models.CharField(max_length=255, db_column= "image_url",  null=True)
     artist = models.ForeignKey(Artists, on_delete=models.CASCADE, db_column='artist_id', related_name='albums')
     
