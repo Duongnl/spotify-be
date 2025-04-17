@@ -2,6 +2,7 @@ from django.shortcuts import render
 from spotifyBE.albums.models import Albums
 from rest_framework import viewsets
 from spotifyBE.albums.serializers import AlbumsSerializer
+from spotifyBE.artists.serializers import ArtistsSerializer
 from spotifyBE.artists.models import Artists
 from spotifyBE.utils.response import ApiResponse
 from rest_framework.decorators import action
@@ -14,8 +15,18 @@ class AlbumsViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         albums = self.get_queryset()
-        serializer = self.get_serializer(albums, many=True)
-        return ApiResponse(data=serializer.data)
+        
+        dataResponse = []
+        for album in albums:
+            album_serializer = self.get_serializer(album)
+            artist_serializer = ArtistsSerializer(album.artist)
+            
+            album_data = album_serializer.data
+            album_data["artist"] = artist_serializer.data
+            
+            dataResponse.append(album_data)
+        
+        return ApiResponse(data=dataResponse)
     
     def retrieve(self, request, *args, **kwargs):
         try:
@@ -23,8 +34,12 @@ class AlbumsViewSet(viewsets.ModelViewSet):
         except  Exception as e:
             return ApiResponse(error= str(e), statusCode=HTTPStatus.NOT_FOUND)
         
-        serializer = self.get_serializer(album) # chuyen qua serializer khong can kiêm tra validator
-        return ApiResponse(data=serializer.data)
+        album_serializer = self.get_serializer(album) # chuyen qua serializer khong can kiêm tra validator
+        artist_serializer  =  ArtistsSerializer(album.artist)
+        
+        dataResponse = album_serializer.data
+        dataResponse["artist"] = artist_serializer.data
+        return ApiResponse(data=dataResponse)
     
     def create(self, request, *args, **kwargs):
         dataRequest = request.data # lay data request ra

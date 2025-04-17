@@ -1,12 +1,11 @@
 from rest_framework import serializers
 from spotifyBE.albums.models import Albums
 from spotifyBE.artists.models import Artists
-from spotifyBE.artists.serializers import ArtistsSerializer
+# from spotifyBE.artists.serializers import ArtistsSerializer
 from spotifyBE.utils.validators import NAME_VALIDATOR
- 
 
 class AlbumsSerializer(serializers.ModelSerializer):
-    artist = ArtistsSerializer(read_only=True) 
+    # artist = ArtistsSerializer(read_only=True) 
     artist_id = serializers.UUIDField(write_only=True)
     
     title = serializers.CharField(validators=[NAME_VALIDATOR])

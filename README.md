@@ -13,7 +13,7 @@ Hướng dẫn cài đặt và chạy ứng dụng Spotify Backend trong WSL (Wi
 1.  **Clone repository:**
 
     ```bash
-    git clone [https://github.com/Duongnl/spotify-fe.git](https://github.com/Duongnl/spotify-fe.git)
+    git clone https://github.com/Duongnl/spotify-fe.git
     ```
 
 2.  **Di chuyển vào thư mục `spotify-be` và tạo môi trường ảo:**
