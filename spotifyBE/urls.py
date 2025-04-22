@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('spotifyBE.artists.urls')),
     path('', include('spotifyBE.albums.urls')),
-
+    path('', include('spotifyBE.users.urls')),
 ]
