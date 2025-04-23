@@ -3,3 +3,4 @@ python-decouple==3.8
 django-cors-headers==4.7.0
 psycopg2-binary==2.9.10
 regex==2024.11.6
+djangorestframework_simplejwt==5.5.0
