@@ -17,4 +17,3 @@ class Tracks(models.Model):
     
     class Meta:
         db_table = 'tracks'
-    

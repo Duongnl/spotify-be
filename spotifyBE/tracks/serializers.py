@@ -3,5 +3,5 @@ from spotifyBE.tracks.models import Tracks
 
 class TracksSerializer(serializers.HyperlinkedModelSerializer):
     class Meta: 
-        modal = Tracks
-        field = '__all__'
+        model = Tracks
+        fields = '__all__'
