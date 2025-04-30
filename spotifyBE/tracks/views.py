@@ -1,9 +1,11 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.utils import timezone
 from spotifyBE.tracks.models import Tracks
 from spotifyBE.tracks.serializers import TracksSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
 
 class TracksViewSet(viewsets.ModelViewSet):
     """
@@ -11,11 +13,24 @@ class TracksViewSet(viewsets.ModelViewSet):
     """
     queryset = Tracks.objects.all()
     serializer_class = TracksSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = PageNumberPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'lyrics']
     
     def create(self, request, *args, **kwargs):
         """
         Tạo một track mới
         """
+        # Validate required fields
+        required_fields = ['title', 'duration', 'urlTrack']
+        for field in required_fields:
+            if field not in request.data:
+                return Response(
+                    {'error': f'{field} is required'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
         # Thêm trường createdAt nếu chưa có
         if 'createdAt' not in request.data:
             request.data['createdAt'] = timezone.now()

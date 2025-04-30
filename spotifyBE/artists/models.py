@@ -13,3 +13,5 @@ class Artists(models.Model):
     class Meta:
         db_table = 'artists'
 
+    def __str__(self):
+        return f"{self.id} - {self.name}"

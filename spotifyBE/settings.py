@@ -180,3 +180,6 @@ SIMPLE_JWT = {
     # Thêm cấu hình đặc biệt cho UUID
     'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
 }
+import os 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
