@@ -11,7 +11,7 @@ class Tracks(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_column='id')
     title = models.CharField(max_length=255,db_column="title")
     duration = models.IntegerField(db_column="duration")
-    track_file = models.FileField(upload_to=track_upload_path, db_column="url_track")
+    track_file = models.FileField(upload_to=track_upload_path, db_column="url_track", null=True)
     urlVideo = models.CharField(max_length=255,db_column="url_video", null=True)
     releaseDate = models.DateField(db_column="release_date", null=True)
     imageUrl = models.CharField(max_length=255, db_column= "image_url", null=True)
