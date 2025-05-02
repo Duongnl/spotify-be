@@ -20,10 +20,10 @@ class TracksViewSet(viewsets.ModelViewSet):
     
     def create(self, request, *args, **kwargs):
         """
-        Tạo một track mới
+        Tạo một track mới với file upload
         """
         # Validate required fields
-        required_fields = ['title', 'duration', 'urlTrack']
+        required_fields = ['title', 'duration']
         for field in required_fields:
             if field not in request.data:
                 return Response(
@@ -31,15 +31,18 @@ class TracksViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_400_BAD_REQUEST
                 )
         
+        # Xử lý file upload
+        data = request.data.copy()
+        
         # Thêm trường createdAt nếu chưa có
-        if 'createdAt' not in request.data:
-            request.data['createdAt'] = timezone.now()
+        if 'createdAt' not in data:
+            data['createdAt'] = timezone.now()
             
         # Khởi tạo playCount là 0 nếu chưa có
-        if 'playCount' not in request.data:
-            request.data['playCount'] = 0
+        if 'playCount' not in data:
+            data['playCount'] = 0
             
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
@@ -79,10 +82,20 @@ class TracksViewSet(viewsets.ModelViewSet):
     
     def update(self, request, *args, **kwargs):
         """
-        Cập nhật toàn bộ thông tin của một track
+        Cập nhật thông tin track với file upload
         """
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        data = request.data.copy()
+        
+        # Giữ nguyên file cũ nếu không có file mới được upload
+        if 'track_file' not in data:
+            data['track_file'] = instance.track_file
+        if 'video_file' not in data:
+            data['video_file'] = instance.video_file
+        if 'image_file' not in data:
+            data['image_file'] = instance.image_file
+            
+        serializer = self.get_serializer(instance, data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)

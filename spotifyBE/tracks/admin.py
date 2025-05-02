@@ -39,26 +39,26 @@ class TracksAdmin(admin.ModelAdmin):
             'fields': ('id', 'title', 'duration', 'releaseDate', 'status')
         }),
         ('Nội dung', {
-            'fields': ('track_file', 'urlVideo')
+            'fields': ('track_file', 'video_file')
         }),
         ('Hình ảnh', {
-            'fields': ('imageUrl', 'preview_image_detail')
+            'fields': ('image_file', 'preview_image_detail')
         }),
         ('Thông tin khác', {
-            'fields': ('playCount', 'createdAt')
+            'fields': ('playCount', 'createdAt', 'lyrics')
         }),
     )
     
     # Tùy chỉnh hiển thị hình ảnh
     def preview_image(self, obj):
-        if obj.imageUrl:
-            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 5px;" />', obj.imageUrl)
+        if obj.image_file:
+            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 5px;" />', obj.image_file.url)
         return "Không có hình ảnh"
     preview_image.short_description = 'Hình ảnh'
     
     def preview_image_detail(self, obj):
-        if obj.imageUrl:
-            return format_html('<img src="{}" width="150" height="150" style="object-fit: cover; border-radius: 8px;" />', obj.imageUrl)
+        if obj.image_file:
+            return format_html('<img src="{}" width="150" height="150" style="object-fit: cover; border-radius: 8px;" />', obj.image_file.url)
         return "Không có hình ảnh"
     preview_image_detail.short_description = 'Xem trước hình ảnh'
     
@@ -79,7 +79,7 @@ class TracksAdmin(admin.ModelAdmin):
     # Tùy chỉnh form khi thêm mới
     def get_fields(self, request, obj=None):
         if obj is None:  # Khi thêm mới
-            return ('title', 'duration', 'track_file', 'urlVideo', 'releaseDate', 'imageUrl', 'status')
+            return ('title', 'duration', 'track_file', 'video_file', 'releaseDate', 'image_file', 'status', 'lyrics')
         return super().get_fields(request, obj)
     
     # Tùy chỉnh quyền hạn

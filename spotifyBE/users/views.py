@@ -100,7 +100,7 @@ class LogoutView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        from rest_framework_simplejwt.tokens import OutstandingToken
+        from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
         try:
             token = request.data.get('refresh')
             OutstandingToken.objects.filter(token=token).delete()
