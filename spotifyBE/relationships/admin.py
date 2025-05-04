@@ -41,14 +41,14 @@ class AlbumTracksAdmin(admin.ModelAdmin):
     track_title.short_description = 'Track'
     
     def preview_track(self, obj):
-        if obj.track.imageUrl:
-            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 5px;" />', obj.track.imageUrl)
+        if obj.track.image_file:
+            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 5px;" />', obj.track.image_file)
         return "Không có hình ảnh"
     preview_track.short_description = 'Hình ảnh track'
     
     def preview_track_detail(self, obj):
-        if obj.track.imageUrl:
-            return format_html('<img src="{}" width="150" height="150" style="object-fit: cover; border-radius: 8px;" />', obj.track.imageUrl)
+        if obj.track.image_file:
+            return format_html('<img src="{}" width="150" height="150" style="object-fit: cover; border-radius: 8px;" />', obj.track.image_file)
         return "Không có hình ảnh"
     preview_track_detail.short_description = 'Xem trước hình ảnh track'
 
@@ -94,14 +94,14 @@ class ArtistTracksAdmin(admin.ModelAdmin):
     track_title.short_description = 'Track'
     
     def preview_track(self, obj):
-        if obj.track.imageUrl:
-            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 5px;" />', obj.track.imageUrl)
+        if obj.track.image_file:
+            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 5px;" />', obj.track.image_file)
         return "Không có hình ảnh"
     preview_track.short_description = 'Hình ảnh track'
     
     def preview_track_detail(self, obj):
-        if obj.track.imageUrl:
-            return format_html('<img src="{}" width="150" height="150" style="object-fit: cover; border-radius: 8px;" />', obj.track.imageUrl)
+        if obj.track.image_file:
+            return format_html('<img src="{}" width="150" height="150" style="object-fit: cover; border-radius: 8px;" />', obj.track.image_file)
         return "Không có hình ảnh"
     preview_track_detail.short_description = 'Xem trước hình ảnh track'
 
@@ -148,13 +148,13 @@ class PlaylistTracksAdmin(admin.ModelAdmin):
     added_at_formatted.short_description = 'Thời gian thêm'
     
     def preview_track(self, obj):
-        if obj.track.imageUrl:
-            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 5px;" />', obj.track.imageUrl)
+        if obj.track.image_file:
+            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 5px;" />', obj.track.image_file)
         return "Không có hình ảnh"
     preview_track.short_description = 'Hình ảnh track'
     
     def preview_track_detail(self, obj):
-        if obj.track.imageUrl:
-            return format_html('<img src="{}" width="150" height="150" style="object-fit: cover; border-radius: 8px;" />', obj.track.imageUrl)
+        if obj.track.image_file:
+            return format_html('<img src="{}" width="150" height="150" style="object-fit: cover; border-radius: 8px;" />', obj.track.image_file)
         return "Không có hình ảnh"
     preview_track_detail.short_description = 'Xem trước hình ảnh track' 
