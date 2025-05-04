@@ -49,26 +49,28 @@ class CustomUserAdmin(UserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     
-    # Các trường hiển thị trong danh sách người dùng
-    list_display = ('username', 'email', 'name', 'gender', 'is_active', 'is_staff', 'is_superuser', 'createdAt')
+    # Thêm id vào list_display
+    list_display = ('id', 'username', 'email', 'name', 'gender', 'is_active', 'is_staff', 'is_superuser', 'createdAt')
     list_filter = ('is_active', 'is_staff', 'gender', 'status')
     
-    # Trường tìm kiếm
-    search_fields = ('username', 'email', 'name')
+    # Thêm id vào search_fields nếu muốn tìm kiếm theo ID
+    search_fields = ('id', 'username', 'email', 'name')
     ordering = ('-createdAt',)
     
-    # Phân nhóm các trường khi xem/chỉnh sửa chi tiết người dùng
+    # Thêm id vào readonly_fields để hiển thị nhưng không cho chỉnh sửa
+    readonly_fields = ('id', 'createdAt')
+    
+    # Thêm id vào fieldsets
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
+        (None, {'fields': ('id', 'username', 'password')}),
         ('Thông tin cá nhân', {'fields': ('email', 'name', 'birthDay', 'gender', 'imageUrl')}),
         ('Quyền hạn', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Trạng thái', {'fields': ('status',)}),
+        ('Trạng thái', {'fields': ('status', 'createdAt')}),
     )
     
-    # Phân nhóm các trường khi thêm người dùng mới
     add_fieldsets = (
         (None, {
-'classes': ('wide',),
+            'classes': ('wide',),
             'fields': ('username', 'email', 'name', 'birthDay', 'gender', 'password1', 'password2'),
         }),
     )

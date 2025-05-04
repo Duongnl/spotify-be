@@ -6,6 +6,7 @@ from spotifyBE.tracks.models import Tracks
 from spotifyBE.tracks.serializers import TracksSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
+from spotifyBE.utils.response import ApiResponse
 
 class TracksViewSet(viewsets.ModelViewSet):
     """
@@ -26,9 +27,9 @@ class TracksViewSet(viewsets.ModelViewSet):
         required_fields = ['title', 'duration']
         for field in required_fields:
             if field not in request.data:
-                return Response(
-                    {'error': f'{field} is required'},
-                    status=status.HTTP_400_BAD_REQUEST
+                return ApiResponse(
+                    error=f'{field} is required',
+                    statusCode=status.HTTP_400_BAD_REQUEST
                 )
         
         # Xử lý file upload
@@ -45,8 +46,10 @@ class TracksViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return ApiResponse(
+            data=serializer.data,
+            statusCode=status.HTTP_201_CREATED
+        )
     
     def list(self, request, *args, **kwargs):
         """
@@ -70,7 +73,7 @@ class TracksViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        return ApiResponse(data=serializer.data)
     
     def retrieve(self, request, *args, **kwargs):
         """
@@ -78,7 +81,7 @@ class TracksViewSet(viewsets.ModelViewSet):
         """
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+        return ApiResponse(data=serializer.data)
     
     def update(self, request, *args, **kwargs):
         """
@@ -98,7 +101,7 @@ class TracksViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        return Response(serializer.data)
+        return ApiResponse(data=serializer.data)
     
     def partial_update(self, request, *args, **kwargs):
         """
@@ -108,7 +111,7 @@ class TracksViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        return Response(serializer.data)
+        return ApiResponse(data=serializer.data)
     
     def destroy(self, request, *args, **kwargs):
         """
@@ -116,7 +119,10 @@ class TracksViewSet(viewsets.ModelViewSet):
         """
         instance = self.get_object()
         self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return ApiResponse(
+            data="Track deleted successfully",
+            statusCode=status.HTTP_204_NO_CONTENT
+        )
     
     @action(detail=True, methods=['post'])
     def increment_play_count(self, request, pk=None):
@@ -127,4 +133,4 @@ class TracksViewSet(viewsets.ModelViewSet):
         track.playCount += 1
         track.save()
         serializer = self.get_serializer(track)
-        return Response(serializer.data)
+        return ApiResponse(data=serializer.data)

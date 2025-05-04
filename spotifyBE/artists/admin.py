@@ -10,3 +10,6 @@ class ArtistsAdmin(admin.ModelAdmin):
 
     # Bật tính năng sửa và xóa cho các trường
     actions = ['delete_selected']  # Cho phép xóa nhiều bản ghi cùng lúc
+
+    search_fields = ['name', 'gender']  # Cho phép tìm kiếm theo tên và thể loại
+

@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import check_password
 from spotifyBE.utils.custom_token import get_tokens_for_user
 from spotifyBE.utils.response import ApiResponse
 from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 
 class RegisterView(generics.CreateAPIView):
     queryset = Users.objects.all()
@@ -113,3 +114,28 @@ class LogoutView(APIView):
                 error=str(e),
                 statusCode=status.HTTP_400_BAD_REQUEST
             )
+        
+class UserDetailView(generics.RetrieveAPIView):
+    queryset = Users.objects.all()
+    serializer_class = UsersSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        user = self.get_object()
+        serializer = self.get_serializer(user)
+        return ApiResponse(data=serializer.data)
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserByIdView(generics.RetrieveAPIView):
+    queryset = Users.objects.all()
+    serializer_class = UsersSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+
+    def get(self, request, *args, **kwargs):
+        user = self.get_object()
+        serializer = self.get_serializer(user)
+        return ApiResponse(data=serializer.data)
