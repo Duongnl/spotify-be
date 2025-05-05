@@ -7,6 +7,7 @@ from spotifyBE.tracks.serializers import TracksSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from spotifyBE.utils.response import ApiResponse
+from spotifyBE.relationships.serializers import ArtistTracksSerializer
 
 class TracksViewSet(viewsets.ModelViewSet):
     """
@@ -80,8 +81,21 @@ class TracksViewSet(viewsets.ModelViewSet):
         Lấy thông tin chi tiết của một track
         """
         instance = self.get_object()
+        artist = instance.artists.all()
+        serializerListArtist = ArtistTracksSerializer(artist, many=True)
+        print(serializerListArtist.data)
         serializer = self.get_serializer(instance)
-        return ApiResponse(data=serializer.data)
+        dataResponse = serializer.data
+        dataResponse['artists'] =[]
+        # dataResponse['artists'] = serializerListArtist.data
+        for tracrkartist in serializerListArtist.data:
+            artist = {
+                "artist" : tracrkartist['artist'],
+                "owner" : tracrkartist['owner']
+            }
+            dataResponse['artists'].append(artist)
+
+        return ApiResponse(data = dataResponse)
     
     def update(self, request, *args, **kwargs):
         """

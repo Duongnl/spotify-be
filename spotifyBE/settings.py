@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 
 # Application definition
 
@@ -47,6 +51,8 @@ INSTALLED_APPS = [
     'spotifyBE.playlists',
     'spotifyBE.users',
     'spotifyBE.relationships',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -184,3 +190,14 @@ SIMPLE_JWT = {
 import os 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# Cấu hình Cloudinary
+
+
+cloudinary.config(
+    cloud_name= "moment-images",
+    api_key="198443325732442",
+    api_secret="iJRwSxDdC5joHY3Fg3cZjrMAGpo",
+    secure=True
+)
