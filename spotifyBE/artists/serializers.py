@@ -14,11 +14,10 @@ class ArtistsSerializer(serializers.ModelSerializer):
 class ArtistsDetailSerializer(serializers.ModelSerializer):
     tracks = ArtistTracksSerializer( many=True, read_only=True)
     albums = AlbumsSerializer(many=True, read_only=True)
+    # albums = SimpleAlbumsSerializer(many=True, read_only=True)
+   
     class Meta:
         model = Artists
         fields = '__all__'
-
-
-
 
     
