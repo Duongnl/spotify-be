@@ -5,3 +5,4 @@ psycopg2-binary==2.9.10
 regex==2024.11.6
 djangorestframework_simplejwt==5.5.0
 django-storages==1.14.2
+pillow==11.2.1
