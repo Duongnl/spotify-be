@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from spotifyBE.tracks.models import Tracks
-from spotifyBE.relationships.serializers import ArtistTracksSerializer
+# from spotifyBE.relationships.serializers import ArtistTracksSerializer
 
 class TracksSerializer(serializers.ModelSerializer):
     
