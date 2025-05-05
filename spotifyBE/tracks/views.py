@@ -134,3 +134,10 @@ class TracksViewSet(viewsets.ModelViewSet):
         track.save()
         serializer = self.get_serializer(track)
         return ApiResponse(data=serializer.data)
+
+    @action(detail=False, methods=['get'], url_path='search/(?P<query_string>[^/.]+)')
+    def search(self, request, query_string=None): # Bỏ pk=None vì detail=False
+       print("Từ khóa tìm kiếm:", query_string)
+       tracks = Tracks.objects.filter(title__icontains=query_string)
+       serializer = TracksSerializer(tracks, many=True)
+       return ApiResponse(data=serializer.data)
