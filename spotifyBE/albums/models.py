@@ -1,5 +1,6 @@
 from django.db import models
 from spotifyBE.artists.models import Artists
+from cloudinary.models import CloudinaryField
 # Create your models here.
 import uuid
 # Create your models here.
@@ -8,7 +9,7 @@ class Albums(models.Model):
     title = models.CharField(max_length=255,db_column="title")
     releaseDate = models.DateField(db_column="release_date", null=True)
     createdAt = models.DateTimeField(db_column="created_at" , auto_now_add=True)
-    imageUrl = models.CharField(max_length=255, db_column= "image_url",  null=True)
+    imageUrl = CloudinaryField('image', db_column="image_url", null=True, blank=True)
     artist = models.ForeignKey(Artists, on_delete=models.CASCADE, db_column='artist_id', related_name='albums')
     
     class Meta:

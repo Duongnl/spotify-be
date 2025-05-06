@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-
+from cloudinary.models import CloudinaryField
 
 def image_upload_path(instance, filename):
     # Tạo đường dẫn lưu trữ ảnh dựa trên ID của track
@@ -12,7 +12,7 @@ class Artists(models.Model):
     name = models.CharField(max_length=255,db_column="name")
     bio = models.TextField(db_column="bio", null=True)
     title = models.CharField(max_length=255,db_column="title")
-    image_file = models.ImageField(upload_to=image_upload_path, db_column="image_url", null=True)
+    image_file = CloudinaryField('image', db_column="image_url", null=True, blank=True)
     gender = models.CharField(max_length=255,db_column="gender")
     
     class Meta:
