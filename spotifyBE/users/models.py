@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,PermissionsMixin
+from cloudinary.models import CloudinaryField
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
@@ -32,7 +33,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True, db_column="email")
     password = models.CharField(max_length=255, db_column="password")
     name = models.CharField(max_length=255, db_column="name")
-    imageUrl = models.CharField(max_length=255, db_column="image_url", null=True, blank=True)
+    imageUrl = CloudinaryField('image', db_column="image_url", null=True, blank=True)
     birthDay = models.DateField(db_column="birth_day", null=True, blank=True)
     gender = models.CharField(max_length=255, db_column="gender", null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True, db_column="created_at")
