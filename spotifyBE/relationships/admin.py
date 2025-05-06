@@ -5,7 +5,7 @@ from django.utils.html import format_html
 @admin.register(AlbumTracks)
 class AlbumTracksAdmin(admin.ModelAdmin):
     # Các trường hiển thị trên trang danh sách
-    list_display = ('id', 'album_title', 'track_title', 'preview_track')
+    list_display = ('id', 'album_title', 'track_title', 'trackNumber', 'preview_track')
     
     # Trường cho phép tìm kiếm
     search_fields = ('album__title', 'track__title')
@@ -20,15 +20,12 @@ class AlbumTracksAdmin(admin.ModelAdmin):
     list_per_page = 20
     
     # Trường chỉ đọc khi chỉnh sửa
-    readonly_fields = ('id', 'preview_track_detail')
+    readonly_fields = ('id',)
     
     # Phân nhóm các trường khi hiển thị form chỉnh sửa
     fieldsets = (
         ('Thông tin cơ bản', {
-            'fields': ('id', 'album', 'track')
-        }),
-        ('Xem trước', {
-            'fields': ('preview_track_detail',)
+            'fields': ('id', 'album', 'track', 'trackNumber')
         }),
     )
     
@@ -45,12 +42,6 @@ class AlbumTracksAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 5px;" />', obj.track.image_file)
         return "Không có hình ảnh"
     preview_track.short_description = 'Hình ảnh track'
-    
-    def preview_track_detail(self, obj):
-        if obj.track.image_file:
-            return format_html('<img src="{}" width="150" height="150" style="object-fit: cover; border-radius: 8px;" />', obj.track.image_file)
-        return "Không có hình ảnh"
-    preview_track_detail.short_description = 'Xem trước hình ảnh track'
 
 @admin.register(ArtistTracks)
 class ArtistTracksAdmin(admin.ModelAdmin):
@@ -73,15 +64,12 @@ class ArtistTracksAdmin(admin.ModelAdmin):
     list_editable = ('owner',)
     
     # Trường chỉ đọc khi chỉnh sửa
-    readonly_fields = ('id', 'preview_track_detail')
+    readonly_fields = ('id',)
     
     # Phân nhóm các trường khi hiển thị form chỉnh sửa
     fieldsets = (
         ('Thông tin cơ bản', {
             'fields': ('id', 'artist', 'track', 'owner')
-        }),
-        ('Xem trước', {
-            'fields': ('preview_track_detail',)
         }),
     )
     
@@ -98,17 +86,11 @@ class ArtistTracksAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 5px;" />', obj.track.image_file)
         return "Không có hình ảnh"
     preview_track.short_description = 'Hình ảnh track'
-    
-    def preview_track_detail(self, obj):
-        if obj.track.image_file:
-            return format_html('<img src="{}" width="150" height="150" style="object-fit: cover; border-radius: 8px;" />', obj.track.image_file)
-        return "Không có hình ảnh"
-    preview_track_detail.short_description = 'Xem trước hình ảnh track'
 
 @admin.register(PlaylistTracks)
 class PlaylistTracksAdmin(admin.ModelAdmin):
     # Các trường hiển thị trên trang danh sách
-    list_display = ('id', 'playlist_name', 'track_title', 'added_at_formatted', 'preview_track')
+    list_display = ('id', 'playlist_name', 'track_title', 'track_number', 'added_at_formatted', 'preview_track')
     
     # Trường cho phép tìm kiếm
     search_fields = ('playlist__name', 'track__title')
@@ -123,15 +105,12 @@ class PlaylistTracksAdmin(admin.ModelAdmin):
     list_per_page = 20
     
     # Trường chỉ đọc khi chỉnh sửa
-    readonly_fields = ('id', 'addedAt', 'preview_track_detail')
+    readonly_fields = ('id', 'addedAt')
     
     # Phân nhóm các trường khi hiển thị form chỉnh sửa
     fieldsets = (
         ('Thông tin cơ bản', {
-            'fields': ('id', 'playlist', 'track', 'addedAt')
-        }),
-        ('Xem trước', {
-            'fields': ('preview_track_detail',)
+            'fields': ('id', 'playlist', 'track', 'trackNumber', 'addedAt')
         }),
     )
     
@@ -143,6 +122,10 @@ class PlaylistTracksAdmin(admin.ModelAdmin):
         return obj.track.title
     track_title.short_description = 'Track'
     
+    def track_number(self, obj):
+        return obj.trackNumber
+    track_number.short_description = 'Số thứ tự track'
+    
     def added_at_formatted(self, obj):
         return obj.addedAt.strftime("%d/%m/%Y %H:%M")
     added_at_formatted.short_description = 'Thời gian thêm'
@@ -152,9 +135,3 @@ class PlaylistTracksAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 5px;" />', obj.track.image_file)
         return "Không có hình ảnh"
     preview_track.short_description = 'Hình ảnh track'
-    
-    def preview_track_detail(self, obj):
-        if obj.track.image_file:
-            return format_html('<img src="{}" width="150" height="150" style="object-fit: cover; border-radius: 8px;" />', obj.track.image_file)
-        return "Không có hình ảnh"
-    preview_track_detail.short_description = 'Xem trước hình ảnh track' 
