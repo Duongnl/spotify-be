@@ -81,21 +81,22 @@ class TracksViewSet(viewsets.ModelViewSet):
         Lấy thông tin chi tiết của một track
         """
         instance = self.get_object()
-        artist = instance.artists.all()
-        serializerListArtist = ArtistTracksSerializer(artist, many=True)
-        print(serializerListArtist.data)
         serializer = self.get_serializer(instance)
-        dataResponse = serializer.data
-        dataResponse['artists'] =[]
-        # dataResponse['artists'] = serializerListArtist.data
-        for tracrkartist in serializerListArtist.data:
-            artist = {
-                "artist" : tracrkartist['artist'],
-                "owner" : tracrkartist['owner']
-            }
-            dataResponse['artists'].append(artist)
+        # artist = instance.artists.all()
+        # serializerListArtist = ArtistTracksSerializer(artist, many=True)
+        # print(serializerListArtist.data)
+        # serializer = self.get_serializer(instance)
+        # dataResponse = serializer.data
+        # dataResponse['artists'] =[]
+        # # dataResponse['artists'] = serializerListArtist.data
+        # for tracrkartist in serializerListArtist.data:
+        #     artist = {
+        #         "artist" : tracrkartist['artist'],
+        #         "owner" : tracrkartist['owner']
+        #     }
+        #     dataResponse['artists'].append(artist)
 
-        return ApiResponse(data = dataResponse)
+        return ApiResponse(data = serializer.data)
     
     def update(self, request, *args, **kwargs):
         """
