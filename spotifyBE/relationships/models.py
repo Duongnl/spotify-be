@@ -12,7 +12,7 @@ class PlaylistTracks(models.Model):
     playlist = models.ForeignKey(Playlists, on_delete=models.CASCADE, db_column='playlist_id', related_name='tracks')
     track = models.ForeignKey(Tracks, on_delete=models.CASCADE, db_column='track_id', related_name='playlists')
     trackNumber = models.IntegerField(db_column="track_number")
-    addedAt = models.DateTimeField(db_column="added_at")
+    addedAt = models.DateTimeField(db_column="added_at", auto_now_add=True)
     class Meta:
         db_table = 'playlist_tracks'
 

@@ -26,5 +26,6 @@ urlpatterns = [
     path('', include('spotifyBE.users.urls')),
     path('', include('spotifyBE.relationships.urls')),
     path('', include('spotifyBE.tracks.urls')),
+    path('', include('spotifyBE.playlists.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
