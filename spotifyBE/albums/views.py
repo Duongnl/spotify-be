@@ -35,11 +35,7 @@ class AlbumsViewSet(viewsets.ModelViewSet):
             return ApiResponse(error= str(e), statusCode=HTTPStatus.NOT_FOUND)
         
         album_serializer = self.get_serializer(album) # chuyen qua serializer khong can kiêm tra validator
-        artist_serializer  =  ArtistsSerializer(album.artist)
-        
-        dataResponse = album_serializer.data
-        dataResponse["artist"] = artist_serializer.data
-        return ApiResponse(data=dataResponse)
+        return ApiResponse(data=album_serializer.data)
     
     def create(self, request, *args, **kwargs):
         dataRequest = request.data # lay data request ra

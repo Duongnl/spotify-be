@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,PermissionsMixin
 from cloudinary.models import CloudinaryField
+from spotifyBE.playbar.models import Playbar
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
@@ -38,6 +39,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     gender = models.CharField(max_length=255, db_column="gender", null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True, db_column="created_at")
     status = models.CharField(max_length=255, db_column="status", default='active')
+    playbar = models.OneToOneField(Playbar, on_delete=models.CASCADE, db_column='playbar_id', related_name='user',  null=True, default=None)
     
     # Các trường bắt buộc cho AbstractBaseUser
     is_active = models.BooleanField(default=True)

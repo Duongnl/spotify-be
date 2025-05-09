@@ -4,10 +4,13 @@ from django.contrib.auth.hashers import make_password
 import datetime
 from spotifyBE.utils.validators import NAME_VALIDATOR
 from spotifyBE.playlists.nested_serializers import PlaylistsNestedSerializer
+from spotifyBE.playbar.nested_serializers import PlaybarNestedSerializer
+
 
 class UsersSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(format='hex_verbose', read_only=True)
     playlists =  PlaylistsNestedSerializer(many=True, read_only=True)
+    playbar = PlaybarNestedSerializer(read_only=True)
     class Meta:
         model = Users
         fields = '__all__'

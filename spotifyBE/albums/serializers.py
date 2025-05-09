@@ -3,13 +3,16 @@ from spotifyBE.albums.models import Albums
 from spotifyBE.artists.models import Artists
 # from spotifyBE.artists.serializers import ArtistsSerializer
 from spotifyBE.utils.validators import NAME_VALIDATOR
+from spotifyBE.artists.nested_serializers import ArtistsNestedSerializer
+from spotifyBE.relationships.nested_serializers import AlbumTracksNestedSerializer
 
 class AlbumsSerializer(serializers.ModelSerializer):
     # artist = ArtistsSerializer(read_only=True) 
     artist_id = serializers.UUIDField(write_only=True)
     
     title = serializers.CharField(validators=[NAME_VALIDATOR])
-    
+    artist = ArtistsNestedSerializer(read_only=True)
+    tracks = AlbumTracksNestedSerializer (many = True, read_only=True)
     class Meta:
         model = Albums
         fields = '__all__'
