@@ -1,6 +1,11 @@
-from django.urls import path
-from spotifyBE.playlists.views import PlaylistsDetailAPIView
+# music/urls.py
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from spotifyBE.playlists.views import PlaylistsViewSet
+
+router = DefaultRouter()
+router.register('playlists', PlaylistsViewSet)
 
 urlpatterns = [
-    path('playlists/<uuid:pk>/', PlaylistsDetailAPIView.as_view(), name='playlists-detail'),
+    path('', include(router.urls)),
 ]
