@@ -8,7 +8,7 @@ from spotifyBE.relationships.nested_serializers import AlbumTracksNestedSerializ
 
 class AlbumsSerializer(serializers.ModelSerializer):
     # artist = ArtistsSerializer(read_only=True) 
-    # artist_id = serializers.UUIDField(write_only=True)
+    artist_id = serializers.UUIDField(write_only=True)
     
     title = serializers.CharField(validators=[NAME_VALIDATOR])
     artist = ArtistsNestedSerializer(read_only=True)
