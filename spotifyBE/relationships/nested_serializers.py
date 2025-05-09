@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from spotifyBE.relationships.models import ArtistTracks, AlbumTracks
+from spotifyBE.relationships.models import ArtistTracks, AlbumTracks, PlaylistTracks
 from spotifyBE.artists.nested_serializers import ArtistsNestedSerializer
 from spotifyBE.tracks.nested_serializers import TracksNestedSerializer
 
@@ -21,3 +21,10 @@ class AlbumTracksNestedSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlbumTracks
         fields = '__all__'
+        
+class PlaylistTracksNestedSerializer(serializers.ModelSerializer):
+    track = TracksNestedSerializer(read_only=True)
+    class Meta:
+        model = PlaylistTracks
+        fields = '__all__'
+        

@@ -10,7 +10,7 @@ class Playlists(models.Model):
     createdAt = models.DateField(db_column="created_at", auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True, db_column="updated_at")
     status = models.CharField(max_length=255,db_column="status")
-    users = models.ForeignKey(Users, on_delete=models.CASCADE, db_column='user_id', related_name='playlists')
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, db_column='user_id', related_name='playlists')
 
     class Meta:
         db_table = 'playlists'

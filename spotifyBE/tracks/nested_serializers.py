@@ -6,3 +6,4 @@ class TracksNestedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tracks
         fields = '__all__'
+        
