@@ -29,6 +29,15 @@ class PlaylistTracksSerializer(serializers.ModelSerializer):
         model = PlaylistTracks
         fields = '__all__' 
         
+    def validate(self, attrs):
+        playlist_id = attrs.get("playlist_id")
+        track_id = attrs.get("track_id")
+
+        if PlaylistTracks.objects.filter(playlist_id=playlist_id, track_id=track_id).exists():
+            raise serializers.ValidationError("Track đã tồn tại trong playlist này.")
+        return attrs
+
+        
     def validate_track_id(self, value):
         """
         Kiểm tra xem artist_id có tồn tại trong cơ sở dữ liệu không.
