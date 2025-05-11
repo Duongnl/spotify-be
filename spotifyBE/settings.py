@@ -159,8 +159,8 @@ AUTH_USER_MODEL = 'users.Users'  # Thay 'users' bằng tên app của bạn
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),  # Tăng từ 60 phút lên 120 phút
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),      # Tăng từ 1 ngày lên 7 ngày
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': True,
@@ -185,7 +185,6 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
     
-    # Thêm cấu hình đặc biệt cho UUID
     'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
 }
 import os 
