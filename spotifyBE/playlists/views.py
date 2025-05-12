@@ -51,3 +51,11 @@ class PlaylistsViewSet(viewsets.ModelViewSet):
         serializer.save()
         return ApiResponse(data=serializer.data)
     
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+        except  Exception as e:
+            return ApiResponse(error= str(e), statusCode=HTTPStatus.NOT_FOUND)
+        instance.tracks.all().delete()
+        self.perform_destroy(instance)
+        return ApiResponse()
