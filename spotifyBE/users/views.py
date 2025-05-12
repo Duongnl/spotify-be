@@ -139,3 +139,23 @@ class UserByIdView(generics.RetrieveAPIView):
         user = self.get_object()
         serializer = self.get_serializer(user)
         return ApiResponse(data=serializer.data)
+
+class UpdateUserView(generics.UpdateAPIView):
+    queryset = Users.objects.all()
+    serializer_class = UsersSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.get(id=self.kwargs['id'])
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return ApiResponse(data=serializer.data, statusCode=status.HTTP_200_OK)
+        return ApiResponse(error=serializer.errors, statusCode=status.HTTP_400_BAD_REQUEST)
