@@ -160,3 +160,32 @@ class UpdateUserView(generics.UpdateAPIView):
             serializer.save()
             return ApiResponse(data=serializer.data, statusCode=status.HTTP_200_OK)
         return ApiResponse(error=serializer.errors, statusCode=status.HTTP_400_BAD_REQUEST)
+    
+class UpdateUserPlaybarIdView(generics.GenericAPIView):
+    queryset = Users.objects.all()
+    serializer_class = UsersSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.get(id=self.kwargs['id'])
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+    def post(self, request, *args, **kwargs):
+        user = self.get_object()
+
+        # Lấy playbar_id từ request data
+        playbar_id = request.data.get('playbar_id')
+
+        if not playbar_id:
+            return ApiResponse(error="playbar_id is required", statusCode=status.HTTP_400_BAD_REQUEST)
+
+        # Cập nhật playbar_id
+        user.playbar_id = playbar_id
+        user.save()
+
+        # Trả về dữ liệu người dùng đã cập nhật
+        serializer = self.get_serializer(user)
+        return ApiResponse(data=serializer.data, statusCode=status.HTTP_200_OK)
