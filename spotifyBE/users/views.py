@@ -97,6 +97,7 @@ class RefreshTokenView(APIView):
             error=serializer.errors,
             statusCode=status.HTTP_400_BAD_REQUEST
         )
+
 class LogoutView(APIView):
     permission_classes = [AllowAny]
 
@@ -128,7 +129,6 @@ class UserDetailView(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
 
-
 class UserByIdView(generics.RetrieveAPIView):
     queryset = Users.objects.all()
     serializer_class = UsersSerializer
@@ -154,6 +154,7 @@ class UpdateUserView(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         user = self.get_object()
+        print(f"Request data: {request.data}")  # Debug dữ liệu nhận được
         serializer = self.get_serializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
