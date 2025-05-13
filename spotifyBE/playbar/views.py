@@ -31,8 +31,8 @@ class PlaybarViewSet(viewsets.ModelViewSet):
 
         dataRequest = request.data
         
-        partial = kwargs.get('partial', False) # dat trang thai cập nhật toàn bộ object
-        serializer = self.get_serializer(playbar, data=dataRequest, partial=partial) # chuyenn qua serializer dong thoi tu kiem tra voi du lieu album cu va validator
+       
+        serializer = self.get_serializer(playbar, data=request.data, partial=True) # chuyenn qua serializer dong thoi tu kiem tra voi du lieu album cu va validator
         
         print("serializer >>> ", dataRequest)
         
