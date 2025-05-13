@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from cloudinary.models import CloudinaryField
 from spotifyBE.playbar.models import Playbar
 
@@ -17,7 +17,7 @@ class UserManager(BaseUserManager):
             email=email,
             **extra_fields
         )
-        user.set_password(password)
+        user.set_password(password)  # Hash mật khẩu
         user.save(using=self._db)
         return user
         
@@ -32,14 +32,14 @@ class Users(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True, db_column="id")
     username = models.CharField(max_length=255, unique=True, db_column="username")
     email = models.EmailField(max_length=255, unique=True, db_column="email")
-    password = models.CharField(max_length=255, db_column="password")
+    # Xóa password = models.CharField(max_length=255, db_column="password")
     name = models.CharField(max_length=255, db_column="name")
     imageUrl = CloudinaryField('image', db_column="image_url", null=True, blank=True)
     birthDay = models.DateField(db_column="birth_day", null=True, blank=True)
     gender = models.CharField(max_length=255, db_column="gender", null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True, db_column="created_at")
     status = models.CharField(max_length=255, db_column="status", default='active')
-    playbar = models.OneToOneField(Playbar, on_delete=models.CASCADE, db_column='playbar_id', related_name='user',  null=True, default=None)
+    playbar = models.OneToOneField(Playbar, on_delete=models.CASCADE, db_column='playbar_id', related_name='user', null=True, default=None)
     
     # Các trường bắt buộc cho AbstractBaseUser
     is_active = models.BooleanField(default=True)
@@ -52,3 +52,6 @@ class Users(AbstractBaseUser, PermissionsMixin):
     
     class Meta:
         db_table = 'users'
+
+    def set_password(self, raw_password):
+        super().set_password(raw_password)  # Sử dụng cơ chế hash của AbstractBaseUser
