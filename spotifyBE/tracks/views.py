@@ -156,3 +156,20 @@ class TracksViewSet(viewsets.ModelViewSet):
        tracks = Tracks.objects.filter(title__icontains=query_string)
        serializer = TracksSerializer(tracks, many=True)
        return ApiResponse(data=serializer.data)
+   
+    @action(detail=False, methods=['get'], url_path='basic-with-artists')
+    def get_title_and_artists(self, request):
+        """
+        Trả về danh sách bài hát với danh sách nghệ sĩ
+        """
+        tracks = Tracks.objects.all()
+        result = []
+
+        for track in tracks:
+            artist_names = track.artists.all().select_related('artist').values_list('artist__name', flat=True)
+            result.append({
+                "title": track.title,
+                "artists": list(artist_names)
+            })
+
+        return Response(result)
