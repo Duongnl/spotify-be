@@ -65,6 +65,24 @@ class AlbumsViewSet(viewsets.ModelViewSet):
         
         serializer.save()
         return ApiResponse(data=serializer.data)
+    
+    @action(detail=False, methods=['get'], url_path='basic-with-tracks')
+    def basic_with_tracks(self, request):
+        # Sử dụng prefetch_related để nạp tracks cho mỗi album
+        albums = Albums.objects.all()  # prefetch tracks liên kết với mỗi album
+
+        result = []
+
+        for album in albums:
+            # Tạo dữ liệu album, gồm tên album và nghệ sĩ sở hữu album đó
+            album_data = {
+                "album_title": album.title,
+                "album_artist": album.artist.name,
+            }
+            result.append(album_data)
+
+        return ApiResponse(result)
+
             
             
         
